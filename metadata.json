@@ -1,0 +1,6 @@
+{
+  "name": "Sistem Presensi Kursus & Google Sheets",
+  "description": "Sistem presensi kelas kursus dengan rekap kehadiran siswa & guru, notifikasi invoice 4x pertemuan atau 8 jam, cetak slip/invoice tab baru, dan generator Google Apps Script & Google Spreadsheet otomatis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

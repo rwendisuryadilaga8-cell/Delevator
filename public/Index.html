@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Sistem Presensi Kursus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      padding: 32px 16px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 680px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px -2px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+      padding: 32px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #ecfdf5;
+      color: #059669;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 22px; color: #0f172a; margin-bottom: 8px; }
+    p { font-size: 14px; color: #64748b; line-height: 1.6; }
+    .card {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px 0;
+      border-left: 4px solid #3b82f6;
+    }
+    .card h3 { font-size: 15px; color: #1e293b; margin-bottom: 6px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: #2563eb;
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #1d4ed8; }
+    .status-box {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+    }
+    .status-success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="badge">Google Apps Script Web App Aktif</span>
+      <h1>Portal Database Presensi Kursus</h1>
+      <p>Layanan backend Google Apps Script telah terhubung ke Google Spreadsheet ini untuk menyimpan rekaman presensi kelas, data siswa, guru, dan kalkulasi invoice otomatis.</p>
+    </div>
+
+    <div class="card">
+      <h3>Pengaturan Database Otomatis</h3>
+      <p>Klik tombol di bawah untuk memeriksa atau menginisialisasi ulang seluruh sheet (Kelas, Siswa, Guru, PresensiSiswa, PresensiGuru, RekapInvoice).</p>
+    </div>
+
+    <button id="btnSetup" class="btn" onclick="runSetup()">⚡ Jalankan Setup Database Sheet Sekarang</button>
+    <div id="statusBox" class="status-box status-success"></div>
+
+    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
+      Sistem Presensi Kursus • Google Spreadsheet API Connector
+    </div>
+  </div>
+
+  <script>
+    function runSetup() {
+      var btn = document.getElementById('btnSetup');
+      var statusBox = document.getElementById('statusBox');
+      btn.disabled = true;
+      btn.innerText = 'Sedang menyiapkan sheet...';
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          btn.disabled = false;
+          btn.innerText = '⚡ Jalankan Setup Database Sheet Sekarang';
+          statusBox.style.display = 'block';
+          statusBox.innerText = 'Berhasil: ' + result;
+        })
+        .withFailureHandler(function(error) {
+          btn.disabled = false;
+          btn.innerText = '⚡ Coba Lagi Setup';
+          statusBox.style.display = 'block';
+          statusBox.className = 'status-box';
+          statusBox.style.background = '#fef2f2';
+          statusBox.style.color = '#991b1b';
+          statusBox.innerText = 'Gagal: ' + error.message;
+        })
+        .setupDatabase();
+    }
+  </script>
+</body>
+</html>
